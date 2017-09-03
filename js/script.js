@@ -12,7 +12,7 @@ $(function(){
         return letter.toUpperCase();
       });
       $("#city_name").text(city);
-      var url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=4890a8bd3957414d41cfd685ad0ded9e";
+      var url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=4890a8bd3957414d41cfd685ad0ded9e";
       loading(url, get_json_data); //Loading animation before json data loaded
       $("#city").val(""); //Clears the search form
 
@@ -41,8 +41,11 @@ $(function(){
   $("#get_location").click(function () { //User gets their own location weather
     if ("geolocation" in navigator){
         navigator.geolocation.getCurrentPosition(function(position){
+          if ($("#mobile").css("display")=="inline") {
+            $(".container").animate({"margin-top": "15vh"}, "slow");
+          }
           console.log(position.coords.latitude + ", " + position.coords.longitude);
-          var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=4890a8bd3957414d41cfd685ad0ded9e";
+          var url = "https://api.openweathermap.org/data/2.5/weather?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=4890a8bd3957414d41cfd685ad0ded9e";
           loading(url, get_json_data); //Loading animation before json data loaded
           $( ".info" ).slideUp( 0 ).delay( 500 ).fadeIn( 1500 );
           $( "#search_div" ).fadeOut( 500 );
@@ -78,7 +81,7 @@ function get_json_data(url){
     //$("#sunset").text("Sunset: " + sunset.getHours() + ":" + sunset.getMinutes());
     console.log(main.sys.sunrise + ", " + main.sys.sunset);
 
-    var icon_url = "/static/img/icons/" + JSON.stringify(main['weather'][0]['icon']).substr(1,2) + ".png";
+    var icon_url = "img/icons/" + JSON.stringify(main['weather'][0]['icon']).substr(1,2) + ".png";
     $("#weather_img").css("display", "inline");
     console.log(icon_url);
     $("#weather_img").attr("src", icon_url);
